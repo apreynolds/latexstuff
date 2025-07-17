@@ -139,8 +139,9 @@ scaled=1.0
 
 } %END AtEndOfClass
 
+% Fakesection AtBeginDocument
 \AtBeginDocument{
 % Fakesection DATETIME
-\RequirePackage[british]{datetime2}
+\RequirePackage[british]{datetime2} % \today = 1st January 2000
 
-}
+} %END AtBeginDocument
