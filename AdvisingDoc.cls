@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{MyBasicDoc}[2025-07-16]
+\ProvidesClass{AdvisingDoc}[2025-07-16]
 
 \LoadClass[11pt]{article}  
 
