@@ -36,6 +36,21 @@
 \RequirePackage{soul}  %for strikeouts
 \RequirePackage[most]{tcolorbox}
 \RequirePackage[]{fancyhdr}
+\RequirePackage{geometry}
+\newlength{\alphabet} % Will be used to set textwidth
+\settowidth{\alphabet}{\normalfont abcdefghijklmnopqrstuvwxyz}
+%\geometry{showframe}
+\geometry{textwidth=2.6\alphabet}
+\geometry{head=15pt}
+%\geometry{twoside}
+\makeatletter
+\if@twoside
+  \geometry{hmarginratio={2:3}}
+\else
+  \geometry{hmarginratio={1:1}}
+\fi
+\makeatother
+\geometry{marginparwidth=0.7\dimexpr\paperwidth-1.0in-\hoffset-\oddsidemargin - \textwidth\relax}
 
 
 % Fakesection TABLES
@@ -49,6 +64,7 @@
 
 % Fakesection FONTS
 % Newtx: Family, times clone (ntxtosf), helvetica clone (qhv), and monospaced (ntxtt). Mono has bold style, and italic shape.
+\let\CheckCommand\providecommand % https://tex.stackexchange.com/questions/511711/disable-microtype-warning
 \RequirePackage[tracking = true]{microtype} %makes pdflatex do cleaner typesetting?
 %\RequirePackage[scaled=1.0]{newtxtext} %Options: osf gives oldstylefigures in text but not math; useosf no longer necessary; helvratio (default 0.9) defines scaling of sans relative to roman
 %\RequirePackage[T1]{fontenc}
@@ -105,6 +121,13 @@
 {\sffamily\bfseries\itshape\color{Black!20!OliveGreen}}{\thesubsubsection}{0.5em}{}
 \titlespacing*{\subsection}
 {0pt}{4.5ex plus 1ex minus .2ex}{2ex plus .2ex}
+
+% Fakesection FUZZ
+\hfuzz 2pt
+\overfullrule 25pt
+\vfuzz 2pt
+\hbadness=500
+\vbadness=1000
 
 % Fakesection AtEndOfClass
 \AtEndOfClass{
