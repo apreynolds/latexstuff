@@ -4,12 +4,17 @@
 % Fakesection TOGGLES and OPTIONS
 \RequirePackage{etoolbox} 
 \newtoggle{Math}
+\newtoggle{LegalPaper}
 
 \DeclareOption{12pt}{\PassOptionsToClass{\CurrentOption}{article}}
 \DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{article}}
 
 \DeclareOption{math}{
   \toggletrue{Math} % include Math
+}
+
+\DeclareOption{legal}{
+  \toggletrue{LegalPaper} % include Math
 }
 
 \DeclareOption{comments}{
@@ -49,6 +54,9 @@
 %\geometry{showframe}
 \geometry{textwidth=2.6\alphabet}
 \geometry{head=15pt}
+\iftoggle{LegalPaper}{
+\geometry{legalpaper}
+}{}
 %\geometry{twoside}
 \makeatletter
 \if@twoside
@@ -61,10 +69,11 @@
 
 
 % Fakesection TABLES
-\RequirePackage{booktabs}
-\RequirePackage{longtable}
-\RequirePackage{multirow}
+\usepackage[]{tabularray}
+\UseTblrLibrary{booktabs}
+\usepackage[]{changepage}
 
+% Fakesection MATH STUFF
 \iftoggle{Math}{
   \RequirePackage{MathStuff} % custom_package
 }{}

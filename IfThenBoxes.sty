@@ -166,7 +166,7 @@
 % Example use case: "See \hyerref[label]{this note}", where label is in a separate section (inputted by MyCommentInput); if I want I can anchor the margin comment with hypertarget command (google-able)
 \newcommand\margincomment[1]{%
   \ifdefined\MyComments
-    \marginnote{\textcolor{Red}{\sffamily #1}}
+    \marginnote{\textcolor{Red}{\sffamily\bfseries #1}}
   \else
   \fi
 }
