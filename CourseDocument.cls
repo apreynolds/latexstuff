@@ -167,7 +167,6 @@ scaled=1.0
     \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space \space (\gitVer{})}}
   }{}
   \fancyfoot[C]{\thepage}
-  \fancyfoot[C]{\thepage}
 }
 
 % Fakesection FUZZ
