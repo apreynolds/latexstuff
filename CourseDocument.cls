@@ -5,6 +5,7 @@
 \RequirePackage{etoolbox} 
 \newtoggle{Math}
 \newtoggle{LegalPaper}
+\newtoggle{NiceMargins}
 
 \DeclareOption{12pt}{\PassOptionsToClass{\CurrentOption}{article}}
 \DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{article}}
@@ -14,7 +15,11 @@
 }
 
 \DeclareOption{legal}{
-  \toggletrue{LegalPaper} % include Math
+  \toggletrue{LegalPaper} 
+}
+
+\DeclareOption{nicemargins}{
+  \toggletrue{NiceMargins} 
 }
 
 \DeclareOption{comments}{
@@ -49,14 +54,11 @@
 \RequirePackage[most]{tcolorbox}
 % Fakesection GEOMETRY
 \RequirePackage{geometry}
+\iftoggle{NiceMargins}{
 \newlength{\alphabet} % Will be used to set textwidth
 \settowidth{\alphabet}{\normalfont abcdefghijklmnopqrstuvwxyz}
-%\geometry{showframe}
 \geometry{textwidth=2.6\alphabet}
 \geometry{head=15pt}
-\iftoggle{LegalPaper}{
-\geometry{legalpaper}
-}{}
 %\geometry{twoside}
 \makeatletter
 \if@twoside
@@ -66,6 +68,10 @@
 \fi
 \makeatother
 \geometry{marginparwidth=0.7\dimexpr\paperwidth-1.0in-\hoffset-\oddsidemargin - \textwidth\relax}
+}{}
+\iftoggle{LegalPaper}{
+\geometry{legalpaper}
+}{}
 
 
 % Fakesection TABLES
