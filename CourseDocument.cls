@@ -45,7 +45,7 @@
   \par{\huge\bfseries\sffamily\color{Black!40!OliveGreen}\@title}
   \vspace{0.5em}
   \par{\Large\sffamily \@subtitle}
-  \par{\small\itshape Updated \@date}
+  \par{\small\itshape Updated \@date \space at \DTMcurrenttime}
   \vspace{0.5em}
 }
 
@@ -158,13 +158,13 @@ scaled=1.0
 \fancyhf{}
 \fancyhead[R]{{\scshape\nouppercase{\leftmark}}}
 \iftoggle{Git}{
-  \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space (\gitVer{})}}
+  \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space \space (\gitVer{})}}
 }{}
 \fancyfoot[C]{\thepage}
 \fancypagestyle{toc}{
   \fancyhf{}
   \iftoggle{Git}{
-    \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space (\gitVer{})}}
+    \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space \space (\gitVer{})}}
   }{}
   \fancyfoot[C]{\thepage}
   \fancyfoot[C]{\thepage}
@@ -203,7 +203,8 @@ scaled=1.0
 % Fakesection AtBeginDocument
 \AtBeginDocument{
 % Fakesection DATETIME
-  \RequirePackage[british]{datetime2} % \today = 1st January 2000
+  \RequirePackage[en-GB]{datetime2}
+  \DTMlangsetup[en-GB]{ord=raise,monthyearsep={,\space}}
   % Fakesection gitver
   \iftoggle{Git}{
     \RequirePackage[noheader]{gitver}
