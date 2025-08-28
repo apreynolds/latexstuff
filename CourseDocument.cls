@@ -164,7 +164,7 @@ scaled=1.0
 \fancypagestyle{toc}{
   \fancyhf{}
   \iftoggle{Git}{
-    \fancyfoot[R]{\fbox{\ttfamily\tiny\itshape\today \space (ver.\ \gitVer{})}}
+    \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space (\gitVer{})}}
   }{}
   \fancyfoot[C]{\thepage}
   \fancyfoot[C]{\thepage}
