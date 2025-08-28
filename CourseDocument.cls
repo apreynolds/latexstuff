@@ -6,6 +6,7 @@
 \newtoggle{Math}
 \newtoggle{LegalPaper}
 \newtoggle{NiceMargins}
+\newtoggle{Git}
 
 \DeclareOption{12pt}{\PassOptionsToClass{\CurrentOption}{article}}
 \DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{article}}
@@ -20,6 +21,10 @@
 
 \DeclareOption{nicemargins}{
   \toggletrue{NiceMargins} 
+}
+
+\DeclareOption{git}{
+  \toggletrue{Git} 
 }
 
 \DeclareOption{comments}{
@@ -40,8 +45,8 @@
   \par{\huge\bfseries\sffamily\color{Black!40!OliveGreen}\@title}
   \vspace{0.5em}
   \par{\Large\sffamily \@subtitle}
-\par{\small\itshape Updated \@date}
-\vspace{0.5em}
+  \par{\small\itshape Updated \@date}
+  \vspace{0.5em}
 }
 
 % Fakesection BASIC PACKAGES
@@ -55,22 +60,22 @@
 % Fakesection GEOMETRY
 \RequirePackage{geometry}
 \iftoggle{NiceMargins}{
-\newlength{\alphabet} % Will be used to set textwidth
-\settowidth{\alphabet}{\normalfont abcdefghijklmnopqrstuvwxyz}
-\geometry{textwidth=2.6\alphabet}
-\geometry{head=15pt}
-%\geometry{twoside}
-\makeatletter
-\if@twoside
-  \geometry{hmarginratio={2:3}}
-\else
-  \geometry{hmarginratio={1:1}}
-\fi
-\makeatother
-\geometry{marginparwidth=0.7\dimexpr\paperwidth-1.0in-\hoffset-\oddsidemargin - \textwidth\relax}
+  \newlength{\alphabet} % Will be used to set textwidth
+  \settowidth{\alphabet}{\normalfont abcdefghijklmnopqrstuvwxyz}
+  \geometry{textwidth=2.6\alphabet}
+  \geometry{head=15pt}
+  %\geometry{twoside}
+  \makeatletter
+  \if@twoside
+    \geometry{hmarginratio={2:3}}
+  \else
+    \geometry{hmarginratio={1:1}}
+  \fi
+  \makeatother
+  \geometry{marginparwidth=0.7\dimexpr\paperwidth-1.0in-\hoffset-\oddsidemargin - \textwidth\relax}
 }{}
 \iftoggle{LegalPaper}{
-\geometry{legalpaper}
+  \geometry{legalpaper}
 }{}
 
 
@@ -152,12 +157,17 @@ scaled=1.0
 \RequirePackage[]{fancyhdr}
 \fancyhf{}
 \fancyhead[R]{{\scshape\nouppercase{\leftmark}}}
-\fancyfoot[R]{\fbox{\ttfamily\tiny\today \space (\gitVer{})}}
+\iftoggle{Git}{
+  \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space (\gitVer{})}}
+}{}
 \fancyfoot[C]{\thepage}
 \fancypagestyle{toc}{
-\fancyhf{}
-\fancyfoot[R]{\fbox{\ttfamily\tiny\itshape\today \space (ver.\ \gitVer{})}}
-\fancyfoot[C]{\thepage}
+  \fancyhf{}
+  \iftoggle{Git}{
+    \fancyfoot[R]{\fbox{\ttfamily\tiny\itshape\today \space (ver.\ \gitVer{})}}
+  }{}
+  \fancyfoot[C]{\thepage}
+  \fancyfoot[C]{\thepage}
 }
 
 % Fakesection FUZZ
@@ -185,7 +195,7 @@ scaled=1.0
     bookmarksopen = false,%
     %bookmarksopenlevel = 1,%
   }
-  
+
   \newcommand*{\fullautoref}[1]{\hyperref[{#1}]{\autoref*{#1} \nameref*{#1}}} % One single link
   \newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}} % One single link
 
@@ -193,9 +203,11 @@ scaled=1.0
 % Fakesection AtBeginDocument
 \AtBeginDocument{
 % Fakesection DATETIME
-\RequirePackage[british]{datetime2} % \today = 1st January 2000
-% Fakesection gitver
-\RequirePackage[noheader]{gitver}
+  \RequirePackage[british]{datetime2} % \today = 1st January 2000
+  % Fakesection gitver
+  \iftoggle{Git}{
+    \RequirePackage[noheader]{gitver}
+  }{}
 
 
 } %END AtBeginDocument
