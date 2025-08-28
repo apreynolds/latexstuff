@@ -40,7 +40,7 @@
   \par{\huge\bfseries\sffamily\color{Black!40!OliveGreen}\@title}
   \vspace{0.5em}
   \par{\Large\sffamily \@subtitle}
-  \par{\small\itshape Updated \@date}
+\par{\small\itshape Updated \@date}
 \vspace{0.5em}
 }
 
@@ -150,12 +150,15 @@ scaled=1.0
 
 % Fakesection FANCYHDR
 \RequirePackage[]{fancyhdr}
-  \fancyhead[L]{}
-  \fancyhead[R]{{\scshape\nouppercase{\leftmark}}}
-\fancyhead[C]{}
-\fancyfoot[L]{}
+\fancyhf{}
+\fancyhead[R]{{\scshape\nouppercase{\leftmark}}}
+\fancyfoot[R]{\fbox{\ttfamily\tiny\today \space (\gitVer{})}}
 \fancyfoot[C]{\thepage}
-\fancyfoot[R]{}
+\fancypagestyle{toc}{
+\fancyhf{}
+\fancyfoot[R]{\fbox{\ttfamily\tiny\itshape\today \space (ver.\ \gitVer{})}}
+\fancyfoot[C]{\thepage}
+}
 
 % Fakesection FUZZ
 \hfuzz 2pt
@@ -191,5 +194,8 @@ scaled=1.0
 \AtBeginDocument{
 % Fakesection DATETIME
 \RequirePackage[british]{datetime2} % \today = 1st January 2000
+% Fakesection gitver
+\RequirePackage[noheader]{gitver}
+
 
 } %END AtBeginDocument
