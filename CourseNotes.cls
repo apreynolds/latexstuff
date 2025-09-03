@@ -1,6 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{CourseNotes}[2025-08-28]
 
+%TODO move APEX stuff to a style file, it's a lot of clutter and unnecessary for some courses; include as a class option?
+%TODO look into using amsthm for definitions, etc, instead of mytcolorboxes. 
+
+
 % Fakesection TOGGLES and OPTIONS
 \DeclareOption{studentcopy}{
   \def\StudentCopy{1} 
@@ -240,7 +244,6 @@
       %% End: Author-provided macros
 
       % Fakesubsection BOXES (theorems, etc)
-
 
       % CAUTION Box
       \newtcolorbox{caution}[1][]{enhanced,
@@ -531,9 +534,9 @@
         %bookmarksopenlevel = 1,%
       }
     }
-% Fakesection AtBeginDocument
-\AtBeginDocument{
-% Fakesection DATETIME
-  \RequirePackage[en-GB]{datetime2}
-  \DTMlangsetup[en-GB]{ord=raise,monthyearsep={,\space}}
-} %END AtBeginDocument
+    % Fakesection AtBeginDocument
+    \AtBeginDocument{
+    % Fakesection DATETIME
+      \RequirePackage[en-GB]{datetime2}
+      \DTMlangsetup[en-GB]{ord=raise,monthyearsep={,\space}}
+    } %END AtBeginDocument

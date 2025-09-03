@@ -88,6 +88,7 @@
 \iftoggle{Math}{
   \RequirePackage{MathStuff} % custom_package
 }{}
+\RequirePackage[]{xfrac} %for nice fractions
 
 % Fakesection FONTS
 % Fakesubsection TYPEFACE SELECTIONS
@@ -155,14 +156,21 @@ scaled=1.0
 
 % Fakesection FANCYHDR
 \RequirePackage[]{fancyhdr}
-\fancyhf{}
-\fancyhead[R]{{\scshape\nouppercase{\leftmark}}}
-\iftoggle{Git}{
-  \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space \space (\gitVer{})}}
-}{}
-\fancyfoot[C]{\thepage}
-\fancypagestyle{toc}{
+
+\fancypagestyle{myfancy}{
+  \renewcommand{\headrulewidth}{0.4pt}
   \fancyhf{}
+  \fancyhead[R]{{\scshape\nouppercase{\leftmark}}}
+  \fancyfoot[C]{\thepage}
+  \iftoggle{Git}{
+    \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space \space (\gitVer{})}}
+  }{}
+}
+
+\fancypagestyle{toc}{
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyhf{}
+  %\fancyhead[R]{{\scshape\nouppercase{Hi There}}}
   \iftoggle{Git}{
     \fancyfoot[R]{\fbox{\ttfamily\tiny\today \space \space (\gitVer{})}}
   }{}
