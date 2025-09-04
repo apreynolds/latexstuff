@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{CourseNotes}[2025-08-28]
+\ProvidesClass{LectureNotes}[2025-08-28]
 
 %TODO look into using amsthm for definitions, etc, instead of mytcolorboxes? No, I don't think so.
 %TODO define colors for the boxes, flashcards, etc
