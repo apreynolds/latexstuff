@@ -3,7 +3,6 @@
 \RequirePackage{marginnote}
 
 % Fakesection mycomment
-\makeatletter
 \newcommand\mycomment[1]{%
   \ifdefined\MyComments
     \tcbox[
@@ -152,7 +151,6 @@
     %\@gobble{\BODY}\ignorespaces
   %\fi
 }
-\makeatother
 
 % Fakesection MyCommentInput 
 % Example use case: A section of comments/notes for fellow instructors; can be used in conjunction with margincomment command
@@ -170,14 +168,12 @@
   \else
   \fi
 }
-\makeatother
 
 % Fakesection OLDER, TO DELETE
 %%%%%%%%%%%%%%%%%%%%%%
 %  OLDER, TO DELETE  %
 %%%%%%%%%%%%%%%%%%%%%%
 
-\makeatletter
 \newcommand\noteinlineold[1]{%
   \ifdefined\MyComments
     {\sffamily\sethlcolor{BrickRed!15}\textcolor{BrickRed!80!Black}{\hl{#1}}}%
@@ -263,4 +259,3 @@
     \@gobble{#1}\ignorespaces
   \fi
 }
-\makeatother
