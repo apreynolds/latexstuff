@@ -269,6 +269,7 @@
 \fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection CONDITIONAL BOXES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand\InstructorNote[1]{%
   \ifdefined\InstructorNotes
     \tcbox[
