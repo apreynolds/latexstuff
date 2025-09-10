@@ -56,7 +56,7 @@
   \vspace*{1em}
   \par{\huge\bfseries\sffamily\@title}
   \par{\Large\sffamily \@subtitle}
-  \par{\small\itshape Updated \@date}
+  \par{\small\itshape Updated \@date \space \InstructorNote{\normalsize\bfseries Instructor Copy}}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -315,6 +315,13 @@
   \else
     \@gobble{\BODY}\ignorespaces
     \ifthenelse{\equal{#1}{}}{\vfill}{\vspace{#1}}
+  \fi
+}
+\newcommand\Answer[1]{%
+  \ifdefined\InstructorNotes
+    \tcbox[tcbox raise base, colframe=ForestGreen, colback=ForestGreen!3, arc = 0mm, outer arc = 0mm, boxrule=0.2mm, left=2pt, right=2pt, top=2pt, bottom=2pt]{#1}
+  \else
+    #1
   \fi
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
