@@ -102,6 +102,7 @@
 % Fakesection FONTS
 %-------------------
 
+\let\CheckCommand\providecommand % https://tex.stackexchange.com/questions/511711/disable-microtype-warning
 \RequirePackage[tracking = true]{microtype} %makes pdflatex do cleaner typesetting?
 \RequirePackage[scaled=1.0]{newtxtext} %provides roman, ss, tt variants.
 \RequirePackage[varqu,varl,scaled=0.95]{zi4}% inconsolata; teletype font
