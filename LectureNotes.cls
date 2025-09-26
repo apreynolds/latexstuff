@@ -3,6 +3,11 @@
 
 %TODO look into using amsthm for definitions, etc, instead of mytcolorboxes? No, I don't think so.
 %TODO define colors for the boxes, flashcards, etc
+%TODO redefine bigskip, medskip, smallskip
+%TODO try making InstructorBox have zero height???
+%TODO make Example environment
+%TODO try fixing awkward height of GrayBoxes, etc when there's no title.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection OPTIONS
