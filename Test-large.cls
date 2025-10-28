@@ -1,7 +1,7 @@
 %UPDATED 2024-12-13
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{Test}
-\LoadClass[12pt]{article}  
+\ProvidesClass{Test-large}
+\LoadClass[20pt]{extarticle}  
 
 %TODO 2024-12-16 Add tikz option
 %TODO bring in the IfThenBoxes and clean them up
@@ -69,7 +69,7 @@
 %----------------------------
 % Fakesection BASIC PACKAGES
 %----------------------------
-\RequirePackage[top=3.6cm, bottom=1.5cm, left=2.0cm, right=1.5cm]{geometry} %legalpaper if desired
+\RequirePackage[top=3.6cm, bottom=1.5cm, left=3.0cm, right=1.5cm]{geometry} %legalpaper if desired
 \RequirePackage{etoolbox}
 \RequirePackage[inline]{enumitem}
 \RequirePackage{parskip} %no indent, skips line between paragraphs
@@ -247,119 +247,119 @@
 }
 
 % Fakesubsection Title
-\newcommand\AssessmentTitle{
-  \thispagestyle{empty}
+\def\AssessmentTitle{
+\thispagestyle{empty}
 
-  % NAME and ID box:
-  \vspace*{-3.2cm}
-  \framebox[9.3cm][c]{% 
-    \parbox[align][2.5cm][c]{9cm}{
-      {\sffamily\bfseries NAME:} \\[4ex]
-      {\sffamily\bfseries ID:} 
-    }%
-  }
-  \medskip
+% NAME and ID box:
+\vspace*{-3.2cm}
+\framebox[9.3cm][c]{% 
+\parbox[align][2.5cm][c]{9cm}{
+{\sffamily\bfseries NAME:} \\[4ex]
+{\sffamily\bfseries ID:} 
+}%
+}
+\medskip
 
-  \ifdefined\TueThu
-    \begin{TUE}
-      \textcolor{TueBoxColor}{%
-        \parbox{1.8cm}{%
-          \centering\sffamily\bfseries
-          {\Large TUE}\\[0.5ex]
-          {\Date} %
-        }%
-      }%
-    \end{TUE}
-    \hfill
-    \begin{minipage}[c]{10cm}%
-      \begin{center}
-        {\bfseries\sffamily 
-          \Large MATH \CourseNumber \space (\Term)
+\ifdefined\TueThu
+\begin{TUE}
+  \textcolor{TueBoxColor}{%
+   \parbox{1.8cm}{%
+    \centering\sffamily\bfseries
+    {\Large TUE}\\[0.5ex]
+    {\Date} %
+   }%
+  }%
+\end{TUE}
+\hfill
+\begin{minipage}[c]{10cm}%
+\begin{center}
+  {\bfseries\sffamily 
+  \Large MATH \CourseNumber \space (\Term)
 
-          \medskip
-          \AssessmentName  
-          \ifdefined\Solutions
-            \ifdefined\MyComments
+    \medskip
+    \AssessmentName  
+    \ifdefined\Solutions
+     \ifdefined\MyComments
 
-              \medskip
-              \space \textcolor{Red}{GRADER'S COPY}
-            \else
-              \space \textcolor{ForestGreen}{SOLUTIONS}
-            \fi
-          \fi
-        }%
-        \setlength{\fboxrule}{0.5pt}
-        \setlength{\fboxsep}{1.5pt}
-      \end{center}
-    \end{minipage}%
-    \hfill
-    \begin{THU}
-      \textcolor{ThuBoxColor}{%
-        \parbox{1.8cm}{%
-          \centering\sffamily\bfseries
-          {\Large THU}\\[0.5ex]
-          {\Date} %
-        }%
-      }%
-    \end{THU}
-  \else
-    \begin{center}
-      {\bfseries\sffamily 
-        \Large MATH \CourseNumber \space (\Term)
-
-        \medskip
-        \AssessmentName \space(\Date)
-        \ifdefined\Solutions
-          \ifdefined\MyComments
-
-            \medskip
-            \space \textcolor{Red}{GRADER'S COPY}
-          \else
-            \space \textcolor{ForestGreen}{SOLUTIONS}
-          \fi
-        \fi
-      }%
-      \setlength{\fboxrule}{0.5pt}
-      \setlength{\fboxsep}{1.5pt}
-    \end{center}
-  \fi
-
-  \ifdefined\Solutions
-    \vspace{1cm}
-    \ifdefined\MyComments
-      \begin{MyCommentBox}{0em}
-        Graders: notes are intended to give you some extra instructions (and are not visible to students). Please read them over if and when you encounter them.
-      \end{MyCommentBox}
-    \else
-      {\sffamily \large
-        \color{ForestGreen}{%
-          These solutions are intended to help you understand both how to solve the problems and how to write up the solutions.
-          There could be other valid ways to solve the problems. 
-
-          \smallskip
-          If you have questions about how your work was graded, please be prepared to refer to these solutions.
-        }
-      }
+      \medskip
+      \space \textcolor{Red}{GRADER'S COPY}
+     \else
+      \space \textcolor{ForestGreen}{SOLUTIONS}
+     \fi
     \fi
-  \fi
+  }%
+\setlength{\fboxrule}{0.5pt}
+\setlength{\fboxsep}{1.5pt}
+\end{center}
+\end{minipage}%
+\hfill
+\begin{THU}
+  \textcolor{ThuBoxColor}{%
+   \parbox{1.8cm}{%
+    \centering\sffamily\bfseries
+    {\Large THU}\\[0.5ex]
+    {\Date} %
+   }%
+  }%
+\end{THU}
+\else
+\begin{center}
+  {\bfseries\sffamily 
+  \Large MATH \CourseNumber \space (\Term)
 
-  \ifdefined\Short
-    \begin{center}
-      {\sffamily \Instructions }
-    \end{center}
+    \medskip
+    \AssessmentName \space(\Date)
+    \ifdefined\Solutions
+     \ifdefined\MyComments
+
+      \medskip
+      \space \textcolor{Red}{GRADER'S COPY}
+     \else
+      \space \textcolor{ForestGreen}{SOLUTIONS}
+     \fi
+    \fi
+  }%
+\setlength{\fboxrule}{0.5pt}
+\setlength{\fboxsep}{1.5pt}
+\end{center}
+\fi
+
+\ifdefined\Solutions
+ \vspace{1cm}
+ \ifdefined\MyComments
+  \begin{MyCommentBox}{0em}
+  Graders: notes are intended to give you some extra instructions (and are not visible to students). Please read them over if and when you encounter them.
+  \end{MyCommentBox}
   \else
-    \bigskip
-    \begin{description}
-      \item[Time:] \Time.
-      \item[Format:] \Format \space (\Points).
-      \item[Coverage:] \Coverage.  
-    \end{description}
+ {\sffamily \large
+  \color{ForestGreen}{%
+   These solutions are intended to help you understand both how to solve the problems and how to write up the solutions.
+   There could be other valid ways to solve the problems. 
 
-    \bigskip
-    {\sffamily\bfseries INSTRUCTIONS:}
+   \smallskip
+   If you have questions about how your work was graded, please be prepared to refer to these solutions.
+  }
+ }
+ \fi
+\fi
 
-    \Instructions 
-  \fi
+\ifdefined\Short
+\begin{center}
+  {\sffamily \Instructions }
+\end{center}
+\else
+\bigskip
+  \begin{description}
+    \item[Time:] \Time.
+    \item[Format:] \Format \space (\Points).
+    \item[Coverage:] \Coverage.  
+  \end{description}
+
+  \bigskip
+  {\sffamily\bfseries INSTRUCTIONS:}
+
+ \Instructions 
+\fi
 } %END title
 
 % Fakesubsection IFTHENBOXES
