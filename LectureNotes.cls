@@ -14,8 +14,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % StudentCopy will give 14pt font, and larger margins:
-\DeclareOption{studentcopy}{
-  \def\StudentCopy{1} 
+\DeclareOption{lecturecopy}{
+  \def\LectureCopy{1} 
 }
 
 \newif\if@loadsysteme %\@loadsystemefalse by default
@@ -40,14 +40,14 @@
 % Fakesection LOAD CLASS AND GEOMETRY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ifdefined\StudentCopy
-% Smaller font and larger margins for student copy:
-  \LoadClass[14pt]{extarticle} 
-  \RequirePackage[top=0.5in,bottom=0.75in,textwidth=6.382in,letterpaper]{geometry}
-\else
+\ifdefined\LectureCopy
 % Larger font and narrow margins for lecture hall projector:
   \LoadClass[17pt]{extarticle} 
   \RequirePackage[top=0.25in,bottom=0.75in,textwidth=7.75in,letterpaper]{geometry}
+\else
+% Smaller font and larger margins:
+  \LoadClass[14pt]{extarticle} 
+  \RequirePackage[top=0.5in,bottom=0.75in,left=0.5in,textwidth=6.382in,letterpaper]{geometry}
 \fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
