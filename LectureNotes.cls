@@ -350,56 +350,6 @@
 \newcommand{\myboxmargin}{6pt}
 \newcommand{\myboxtopmargin}{6pt}
 
-\NewTcbTheorem[number within=section]{mythm}{Theorem}% 
-{colback=green!5,colframe=green!35!black,fonttitle=\bfseries}{th}
-
-\NewTcbTheorem[number within=section]{mydefn}{Definition}% 
-{colback=green!50,colframe=green!75!black,fonttitle=\sffamily\bfseries}{defn}
-
-\NewTcbTheorem[]{myrmk}{Remark}% 
-{theorem style=plain,enhanced,colback=green!50,colframe=green!75!black,fonttitle=\sffamily\bfseries,coltitle=RoyalBlue}{rmk}
-
-\newcommand{\providetcbcountername}[1]{%
-  \@ifundefined{c@tcb@cnt@#1}{%
-    --undefined--%
-  }{%
-    tcb@cnt@#1%
-  }
-}
-
-\newcommand{\settcbcounter}[2]{%
-  \@ifundefined{c@tcb@cnt@#1}{%
-    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
-  }{%
-    \setcounter{tcb@cnt@#1}{#2}
-  }
-}
-
-\newcommand{\displaytcbcounter}[1]{% Wrapper for \the...
-  \@ifundefined{thetcb@cnt@#1}{%
-    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
-  }{%
-    \csname thetcb@cnt@#1\endcsname% 
-  }%
-}
-%%%                                 END MANIPULATING COUNTER OF TCOLORBOX   
-
-\newcommand{\addtotcbcounter}[2]{%
-  \@ifundefined{c@tcb@cnt@#1}{%
-    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
-  }{%
-    \addtocounter{tcb@cnt@#1}{#2}
-  }
-}
-
-\newcommand{\valuetcbcounter}[1]{%
-  \@ifundefined{c@tcb@cnt@#1}{%
-    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
-  }{%
-    \value{tcb@cnt@#1}
-  }
-}
-
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem*{theorem*}{Theorem}
