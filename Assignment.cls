@@ -29,6 +29,7 @@
 \RequirePackage[dvipsnames]{xcolor}
 \RequirePackage[most]{tcolorbox}
 \RequirePackage{tikz}
+\RequirePackage{siunitx}
 %\RequirePackage{background}
 %\backgroundsetup{%
   %contents={}
@@ -93,39 +94,39 @@
 
 \DeclareExerciseEnvironmentTemplate{mymargin}
 {%
-\trivlist
+  \trivlist
 \item[\llap{%
-\smash{%
-\tabular[t]{@{}r@{}}
-\textbf{\GetExerciseName\GetExerciseProperty{counter}.}
-\endtabular
-}%
-}]\relax
-\GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+    \smash{%
+      \tabular[t]{@{}r@{}}
+      \textbf{\GetExerciseName\GetExerciseProperty{counter}.}
+      \endtabular
+    }%
+  }]\relax
+  \GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
 }
 {\endtrivlist}
 
 \DeclareExerciseEnvironmentTemplate{mysolutionrunin}
-  {%
-    \par\vspace{\baselineskip}
-    \Needspace*{2\baselineskip}
-    \noindent
-    %\textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}}%
-    \textbf{\textcolor{ForestGreen}{\XSIMmixedcase{\GetExerciseName}:}}%
-    \GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
-    \IfInsideSolutionF{%
-      \GetExercisePropertyT{points}{%
-        \marginpar{%
-          \printgoal{\PropertyValue}%
-          \GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
-          \,\IfExerciseGoalSingularTF{points}
-              {\XSIMtranslate{point}}
-              {\XSIMtranslate{points}}%
-        }%
+{%
+  \par\vspace{\baselineskip}
+  \Needspace*{2\baselineskip}
+  \noindent
+  %\textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}}%
+  \textbf{\textcolor{ForestGreen}{\XSIMmixedcase{\GetExerciseName}:}}%
+  \GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+  \IfInsideSolutionF{%
+    \GetExercisePropertyT{points}{%
+      \marginpar{%
+        \printgoal{\PropertyValue}%
+        \GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
+        \,\IfExerciseGoalSingularTF{points}
+        {\XSIMtranslate{point}}
+        {\XSIMtranslate{points}}%
       }%
     }%
-  }
-  {}
+  }%
+}
+{}
 
 
 
@@ -152,29 +153,29 @@
 {}
 
 \DeclareExerciseTranslations{points}{
-Fallback = points ,
-English = points ,
-French = exercice ,
-German = \"Ubung
+  Fallback = points ,
+  English = points ,
+  French = exercice ,
+  German = \"Ubung
 }
 \DeclareExerciseTranslations{point}{
-Fallback = point ,
-English = point ,
-French = exercice ,
-German = \"Ubung
+  Fallback = point ,
+  English = point ,
+  French = exercice ,
+  German = \"Ubung
 }
 
 \DeclareExerciseType{question}{
-exercise-env = question ,
-solution-env = qsolution ,
-exercise-name = Q,
-exercises-name = \XSIMtranslate{} ,
-solution-name = \XSIMtranslate{solution} ,
-solutions-name = \XSIMtranslate{solutions} ,
-exercise-template = mymargin ,
-solution-template = mysolutionrunin ,
-exercise-heading = \subsection* ,
-solution-heading = \subsection*
+  exercise-env = question ,
+  solution-env = qsolution ,
+  exercise-name = Q,
+  exercises-name = \XSIMtranslate{} ,
+  solution-name = \XSIMtranslate{solution} ,
+  solutions-name = \XSIMtranslate{solutions} ,
+  exercise-template = mymargin ,
+  solution-template = mysolutionrunin ,
+  exercise-heading = \subsection* ,
+  solution-heading = \subsection*
 }
 
 \ifdefined\Solutions
@@ -182,8 +183,6 @@ solution-heading = \subsection*
 qsolution/print = true
 }
 \fi
-
-
 
 % Fakesection AtEndOfClass
 
