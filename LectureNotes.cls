@@ -1,12 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{LectureNotes}[2025-08-28]
 
-%TODO look into using amsthm for definitions, etc, instead of mytcolorboxes? No, I don't think so.
-%TODO define colors for the boxes, flashcards, etc
 %TODO redefine bigskip, medskip, smallskip
-%TODO try making InstructorBox have zero height???
-%TODO make Example environment
-%TODO try fixing awkward height of GrayBoxes, etc when there's no title.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,11 +37,11 @@
 
 \ifdefined\LectureCopy
 % Larger font and narrow margins for lecture hall projector:
-  \LoadClass[17pt]{extarticle} 
+  \LoadClass[17pt]{extreport} 
   \RequirePackage[top=0.25in,bottom=0.75in,textwidth=7.75in,letterpaper]{geometry}
 \else
 % Smaller font and larger margins:
-  \LoadClass[14pt]{extarticle} 
+  \LoadClass[14pt]{extreport} 
   \RequirePackage[top=0.5in,bottom=0.75in,left=0.5in,textwidth=6.382in,letterpaper]{geometry}
 \fi
 
@@ -68,6 +63,7 @@
 % Fakesection FONTS AND SYMBOLS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage{amsthm}
 \let\CheckCommand\providecommand % https://tex.stackexchange.com/questions/511711/disable-microtype-warning
 \RequirePackage[tracking = true]{microtype} %makes pdflatex do cleaner typesetting?
 \RequirePackage[scaled=1.0]{newtxtext} %provides roman, ss, tt variants.
@@ -81,6 +77,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \colorlet{MyGreen}{Green!70!Black}
+
+\definecolor{flashcardA}{RGB}{247,244,58}
+\definecolor{flashcardB}{RGB}{123,104,238}
+\definecolor{flashcardC}{RGB}{247,58,241}
+\definecolor{flashcardD}{RGB}{118,247,58}
+\definecolor{flashcardE}{RGB}{247,165,58}
+
+\definecolor{ThmColor}{named}{Gray}
+\definecolor{DefnColor}{named}{Gray}
+\definecolor{TakeawayColor}{named}{RoyalBlue}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection BASIC PACKAGES
@@ -115,8 +121,8 @@
 
 \RequirePackage{titlesec}
 \RequirePackage{titletoc}
-\setcounter{secnumdepth}{0}
-\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{3}
 \newcommand{\subsectionbreak}{\clearpage}
 
 %usage: titleformat{command}[shape]
@@ -128,7 +134,7 @@
 
 \titleformat{\subsection}[block]
 {\sffamily\bfseries\large}
-{\thesection}{0.7em}{}[]
+{\thesection-\thesubsection asdd}{0.7em}{}[]
 
 \titleformat{\subsubsection}[block]
 {\sffamily\bfseries\itshape}
@@ -339,6 +345,157 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection BOXES (theorems, etc)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\myboxrule}{1.0pt}
+\newcommand{\myboxarc}{0pt}
+\newcommand{\myboxmargin}{6pt}
+\newcommand{\myboxtopmargin}{6pt}
+
+\NewTcbTheorem[number within=section]{mythm}{Theorem}% 
+{colback=green!5,colframe=green!35!black,fonttitle=\bfseries}{th}
+
+\NewTcbTheorem[number within=section]{mydefn}{Definition}% 
+{colback=green!50,colframe=green!75!black,fonttitle=\sffamily\bfseries}{defn}
+
+\NewTcbTheorem[]{myrmk}{Remark}% 
+{theorem style=plain,enhanced,colback=green!50,colframe=green!75!black,fonttitle=\sffamily\bfseries,coltitle=RoyalBlue}{rmk}
+
+\newcommand{\providetcbcountername}[1]{%
+  \@ifundefined{c@tcb@cnt@#1}{%
+    --undefined--%
+  }{%
+    tcb@cnt@#1%
+  }
+}
+
+\newcommand{\settcbcounter}[2]{%
+  \@ifundefined{c@tcb@cnt@#1}{%
+    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
+  }{%
+    \setcounter{tcb@cnt@#1}{#2}
+  }
+}
+
+\newcommand{\displaytcbcounter}[1]{% Wrapper for \the...
+  \@ifundefined{thetcb@cnt@#1}{%
+    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
+  }{%
+    \csname thetcb@cnt@#1\endcsname% 
+  }%
+}
+%%%                                 END MANIPULATING COUNTER OF TCOLORBOX   
+
+\newcommand{\addtotcbcounter}[2]{%
+  \@ifundefined{c@tcb@cnt@#1}{%
+    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
+  }{%
+    \addtocounter{tcb@cnt@#1}{#2}
+  }
+}
+
+\newcommand{\valuetcbcounter}[1]{%
+  \@ifundefined{c@tcb@cnt@#1}{%
+    \GenericError{Error}{counter name #1 is no tcb counter }{}{}%
+  }{%
+    \value{tcb@cnt@#1}
+  }
+}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{theorem*}{Theorem}
+
+\tcolorboxenvironment{theorem}{
+  enhanced,frame hidden,colback=white,top=\myboxtopmargin,borderline west={\myboxrule}{0pt}{ThmColor}, borderline north={\myboxrule}{0pt}{ThmColor}
+}
+\tcolorboxenvironment{theorem*}{
+  enhanced,frame hidden,colback=white,top=\myboxtopmargin, borderline west={\myboxrule}{0pt}{ThmColor}, borderline north={\myboxrule}{0pt}{ThmColor}
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem*{example*}{Example}
+
+\tcolorboxenvironment{definition}{
+  enhanced,frame hidden,colback=white,top=\myboxtopmargin,borderline west={\myboxrule}{0pt}{DefnColor}, borderline north={\myboxrule}{0pt}{DefnColor}
+}
+
+\newtheoremstyle{takeaway}% see amsthm documentation
+{3pt}{3pt}
+{}{}
+{\sffamily\bfseries\color{TakeawayColor}}{.}
+{ }{}
+
+\theoremstyle{takeaway}
+\newtheorem{keyidea}[theorem]{Key Idea}
+
+\tcolorboxenvironment{keyidea}{
+  enhanced,frame hidden,colback=white,top=7pt,borderline west={2mm}{0pt}{TakeawayColor}, borderline north={2mm}{0pt}{TakeawayColor}
+}
+%\theoremstyle{definition}
+%\newtheorem{defn}[thm]{Definition}
+
+%\theoremstyle{remark}
+
+%\newtheoremstyle{myremark}% see amsthm documentation
+%{3pt}{3pt}
+%{}{}
+%{\sffamily\bfseries\color{RemarkColor}}{:}
+%{ }{REMARK}
+%\theoremstyle{myremark}
+%\newtheorem*{remark}{Remark}
+
+%\tcolorboxenvironment{defn}{%
+  %colframe=Gray!60,
+  %colbacktitle=Gray!7,
+  %left=6pt,
+  %right=6pt,
+  %boxrule=0.8pt,
+  %toptitle=1.3pt,
+  %bottomtitle=0.6pt,
+  %outer arc=0pt,
+  %arc=0pt,
+  %colback=White,
+  %coltitle=Black,
+  %fonttitle=\bfseries,
+  %title={Definition}
+%}
+%\newtheorem*{newprepwork}{}
+
+%\tcolorboxenvironment{lem}{%
+%enhanced jigsaw,colframe=cyan,interior hidden, breakable,before skip=10pt,after skip=10pt }
+
+%\tcolorboxenvironment{proof}{% `proof' from `amsthm' 
+%blanker,breakable,left=5mm, before skip=10pt,after skip=10pt, borderline west={1mm}{0pt}{red}}
+
+\tcolorboxenvironment{newprepwork}{
+  enhanced,
+  colframe=MyGreen,
+  colbacktitle=MyGreen,
+  colback=Green!15,
+  coltitle=White,
+  boxrule=3pt,
+  top=16pt,
+  left=6pt,
+  right=6pt,
+  bottom=6pt,
+  outer arc=0pt,
+  arc=0pt,
+  fonttitle=\bfseries,
+  attach boxed title to top left={xshift=18pt,yshift=-\tcboxedtitleheight/2},
+  boxed title style={outer arc=0pt,top=3pt,bottom=3pt,colback=MyGreen},
+  title={\sffamily\bfseries PREPWORK\ldots }
+}
+\tcolorboxenvironment{remark}{
+  colframe=RemarkColor,
+  left=\myboxmargin, 
+  right=\myboxmargin,
+  boxrule=\myboxrule,
+  outer arc=\myboxarc,
+  arc=\myboxarc,
+  colback=white
+}
 
 % Fakesubsection CautionBox
 \newtcolorbox{CautionBox}[1][]{enhanced,
@@ -463,8 +620,8 @@
   title={\sffamily #1}
 }
 
-% Fakesubsection definition
-\newtcolorbox{definition}[2][]{%
+% Fakesubsection definitionbox
+\newtcolorbox{definitionbox}[2][]{%
   colframe=Gray!60,
   colbacktitle=Gray!7,
   left=6pt,
@@ -557,8 +714,8 @@
     Proposition \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
   }
 }
-% Fakesubsection theorem 
-\newtcolorbox{theorem}[2][]{%
+% Fakesubsection theorembox
+\newtcolorbox{theorembox}[2][]{%
   colframe=RoyalBlue,
   colbacktitle=RoyalBlue!20,
   fontupper=\itshape,
@@ -617,11 +774,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection FLASHCARD LETTERS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\mcA}{\setlength{\fboxsep}{8pt}\colorbox[RGB]{247,244,58}{\sffamily\textbf{A}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcB}{\setlength{\fboxsep}{8pt}\colorbox[RGB]{123,104,238}{\sffamily\textcolor{white}{\textbf{B}}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcC}{\setlength{\fboxsep}{8pt}\colorbox[RGB]{247,58,241}{\sffamily\textcolor{white}{\textbf{C}}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcD}{\setlength{\fboxsep}{8pt}\colorbox[RGB]{118,247,58}{\sffamily\textbf{D}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcE}{\setlength{\fboxsep}{8pt}\colorbox[RGB]{247,165,58}{\sffamily\textcolor{white}{\textbf{E}}}\quad\setlength{\fboxsep}{2pt}}
+%\newcommand{\mcA}{\setlength{\fboxsep}{8pt}\colorbox[RGB]{247,244,58}{\sffamily\textbf{A}}\quad\setlength{\fboxsep}{2pt}}
+\newcommand{\mcA}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardA}{\sffamily\textbf{A}}\quad\setlength{\fboxsep}{2pt}}
+\newcommand{\mcB}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardB}{\sffamily\textcolor{white}{\textbf{B}}}\quad\setlength{\fboxsep}{2pt}}
+\newcommand{\mcC}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardC}{\sffamily\textcolor{white}{\textbf{C}}}\quad\setlength{\fboxsep}{2pt}}
+\newcommand{\mcD}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardD}{\sffamily\textbf{D}}\quad\setlength{\fboxsep}{2pt}}
+\newcommand{\mcE}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardE}{\sffamily\textcolor{white}{\textbf{E}}}\quad\setlength{\fboxsep}{2pt}}
 \newcommand{\mcextra}{\setlength{\fboxsep}{8pt}\colorbox{Gray}{\sffamily\textcolor{Gray}{\textbf{E}}}\quad\setlength{\fboxsep}{2pt}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
