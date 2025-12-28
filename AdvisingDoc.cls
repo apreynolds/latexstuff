@@ -42,9 +42,11 @@ serif, %prevents loading sans serif
 tt=false %prevents loading mono
 ]{libertinus} %libertinus-type1 
 
-% SANS:
+ %SANS:
 \RequirePackage[
-sf,sfoldstyle,scaled=0.85
+sf,
+sflining, % or sfoldstyle,
+scaled=0.85
 ]{merriweather} %scaled roughly halfway between matching lowercase x (0.8) and uppercase X (0.9)
 
 % TELETYPE:
@@ -62,18 +64,18 @@ scaled=1.0
 
 % Fakesubsection TYPEFACE-DEPENDENT STUFF:
 \newcommand{\course}[2][MATH]{%
-  {\sffamily #1 #2}%
+{{\small #1} #2}%
 }
 \AtBeginEnvironment{tabular}{\LibertinusSerifTLF}
 \renewcommand*{\oldstylenums}[1]{{\LibertinusSerifOsF #1}}
 \newcommand*{\liningnums}[1]{{\LibertinusSerifTLF #1}}
-\useosf  % for osf in normal text; load after math package
+%\useosf  % for osf in normal text; load after math package
 
 % Fakesection MARGINNOTE
 \RequirePackage{marginnote}
 
 % Fakesection TITLESEC
-\RequirePackage[sf,clearempty]{titlesec}
+\RequirePackage[sf,bf,clearempty]{titlesec}
 %\assignpagestyle{\chapter}{empty}
 \setcounter{secnumdepth}{0}
 
