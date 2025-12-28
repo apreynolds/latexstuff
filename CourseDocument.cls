@@ -251,27 +251,35 @@ scaled=1.0
 \newcommand\MarginComment[1]{%
   \ifdefined\Comments
     \marginnote{%
-    \begin{tcolorbox}[%
-      %parbox=false,
-      breakable,
-      left=1pt,
-      right=1pt,
-      top=1pt,
-      bottom=1pt,
-      boxrule=0.3mm,
-      arc=0mm,
-      outer arc=0mm,
-      colframe=Lavender!90,
-      colback=Lavender!9,
-      colbacktitle=Lavender,
-      ]
-      \sffamily\small \RaggedRight #1
-    \end{tcolorbox}
-    %\textcolor{Red}{\sffamily\bfseries #1}
+    \textcolor{Red}{\sffamily\bfseries \RaggedRight #1}
   }
   \else
   \fi
 }
+%\newcommand\MarginComment[1]{%
+  %\ifdefined\Comments
+    %\marginnote{%
+    %\begin{tcolorbox}[%
+      %%parbox=false,
+      %breakable,
+      %left=1pt,
+      %right=1pt,
+      %top=1pt,
+      %bottom=1pt,
+      %boxrule=0.3mm,
+      %arc=0mm,
+      %outer arc=0mm,
+      %colframe=Lavender!90,
+      %colback=Lavender!9,
+      %colbacktitle=Lavender,
+      %]
+      %\sffamily\small \RaggedRight #1
+    %\end{tcolorbox}
+    %%\textcolor{Red}{\sffamily\bfseries #1}
+  %}
+  %\else
+  %\fi
+%}
 
 \newcommand\InputComments[1]{% Example use case: A section of comments/notes for fellow instructors
   \ifdefined\Comments

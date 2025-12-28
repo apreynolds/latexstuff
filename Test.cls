@@ -5,7 +5,6 @@
 
 %TODO 2024-12-16 Add tikz option
 %TODO bring in the IfThenBoxes and clean them up
-%TODO bring in the Xsimsetup and clean up
 %TODO (eventually) revamp the whole Tue/Thu left/right box thing, it's very hacky
 
 %-------------------------
@@ -90,12 +89,23 @@
 \RequirePackage[most]{tcolorbox}
 \RequirePackage{tikz}
 \RequirePackage{environ}
-%\RequirePackage{background} %TODO rejig using eso-pic package; background package is probably dead
-%\backgroundsetup{%
-  %contents={}
-%}
 
-\RequirePackage{MathStuff} % custom_package
+\RequirePackage{silence}% for suppression of warnings
+\WarningFilter[mybackgroundwarnings]{everypage}{Functionality similar to this package} 
+\WarningFilter[mybackgroundwarnings]{everypage}{You appear to be running a version of LaTeX}
+\ActivateFilters[mybackgroundwarnings]
+\RequirePackage{background}
+\backgroundsetup{%
+  contents={}
+}
+
+
+\RequirePackage{systeme}
+\RequirePackage{amssymb}
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\newcommand*{\lsim}{\mathord{\sim}} %for use of tilde as negation
+\newcommand*{\hreq}{\overset{HR}{=}} %l'hospital's rule
 
 % generates only the cover page (points won't be calculated correctly)
 \ifdefined\FirstPageOnly
@@ -120,17 +130,209 @@
 %-----------------------
 % Fakesection XSIM, ETC
 %-----------------------
-\RequirePackage{XsimSetup} %custom_package
+\RequirePackage{xsim}
 
-\newcommand\mypointscd[2]{%
- \addpoints*{#1} {\fbox{\ttfamily\small\bfseries #1 pt. \mdseries(C+D=#2)}} 
+\DeclareExerciseTagging{difficulty}
+\DeclareExerciseTagging{usage} %probably obsolete
+\DeclareExerciseTagging{mc} %probably obsolete
+\DeclareExerciseProperty{source}
+
+\loadxsimstyle{layouts}
+
+% Fakesubsection mymargin
+\DeclareExerciseEnvironmentTemplate{mymargin}
+{% 
+  \trivlist 
+\item[\llap{% 
+    \smash{% 
+      \tabular[t]{@{}r@{}} 
+      \textbf{\XSIMmixedcase{\GetExerciseName}\GetExerciseProperty{counter}}.
+      \IfExercisePropertySetT{points}{% 
+        \tabularnewline% 
+        \fbox{\ttfamily\small\bfseries\printgoal{\GetExerciseProperty{points}}% 
+        \GetExercisePropertyT{bonus-points}{+\printgoal{#1}}% 
+      \,\XSIMtranslate{point-abbr}}% 
+      }% 
+      \endtabular 
+    }% 
+  }]\relax 
+} 
+{\endtrivlist}
+
+%\DeclareExerciseEnvironmentTemplate{mymargin}
+%{%
+  %\trivlist
+  %\item[\llap{%
+      %\smash{%
+        %\tabular[t]{@{}r@{}}
+        %\textbf{\GetExerciseName\GetExerciseProperty{counter}.}
+        %\endtabular
+      %}%
+    %}]\relax
+%}
+%{\endtrivlist}
+
+% Fakesubsection mymargindetails
+\DeclareExerciseEnvironmentTemplate{mymargindetails}
+{%
+  \trivlist
+\item[\llap{%
+    \smash{% 
+      \tabular[t]{@{}r@{}} 
+      \textbf{\XSIMmixedcase{\GetExerciseName}\GetExerciseProperty{counter}}.
+      \IfExercisePropertySetT{points}{% 
+        \tabularnewline% 
+        \fbox{\ttfamily\small\bfseries\printgoal{\GetExerciseProperty{points}}% 
+        \GetExercisePropertyT{bonus-points}{+\printgoal{#1}}% 
+      \,\XSIMtranslate{point-abbr}}% 
+      }% 
+      \endtabular 
+    }% 
+  }]\relax
+  \GetExercisePropertyTF{subtitle}{ \textit{(#1)}}{} % <<< notice the space
+  {%
+    \IfInsideSolutionF
+    {%
+      \GetExercisePropertyT{topics}
+      { {\ttfamily\bfseries\textcolor{Black!60}{\PropertyValue}\nobreakspace}}%
+      \GetExercisePropertyT{source}
+      { \hfill{\ttfamily\textcolor{Black!60}{\PropertyValue}}\nobreakspace}%
+      \GetExercisePropertyT{difficulty}
+      { {\ttfamily\textcolor{Red}{\PropertyValue}}}%
+      \newline
+      \GetExercisePropertyT{tags}
+      { {\ttfamily\textcolor{Black!60}{\PropertyValue}}}%
+      \GetExercisePropertyT{ID}
+      { \hfill{\ttfamily\textcolor{Gray}{\PropertyValue}}\par}%
+    }%
+  }
 }
-\newcommand\mypointscdp[2]{%
-  \addpoints*{#1} {\fbox{\ttfamily\small\bfseries #1  pt. \mdseries(C+D+P=#2)}} 
+{\endtrivlist}
+
+% Fakesubsection mysolutionrunin
+\DeclareExerciseEnvironmentTemplate{mysolutionrunin}
+{%
+  \par\vspace{\baselineskip}
+  \Needspace*{2\baselineskip}
+  \noindent
+  %\textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}}%
+  \begin{tcolorbox}[%
+    parbox=false,
+    enhanced,
+    breakable,
+    oversize,
+    left=15pt,
+    right=15pt,
+    top=9pt,
+    boxrule=0.1mm,
+    arc=0mm,
+    outer arc=0mm,
+    colframe=ForestGreen!50,
+    colback=ForestGreen!3,
+    colbacktitle=ForestGreen,
+    coltitle=White,
+    title={\ttfamily\bfseries\small \GetExerciseName},
+    attach boxed title to top left={xshift=5pt,yshift=-\tcboxedtitleheight/2},
+    boxed title style={size=small,boxrule=0pt,arc=0pt,colback=ForestGreen!30, outer arc=0mm,top=0pt,left=0pt,right=0pt,bottom=0pt}
+    ]
+    %\textbf{\textcolor{ForestGreen}{\XSIMmixedcase{\GetExerciseName}:}}%
+    %\GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+    \IfInsideSolutionF{%
+      \GetExercisePropertyT{points}{%
+        \marginpar{%
+          \printgoal{\PropertyValue}%
+          \GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
+          \,\IfExerciseGoalSingularTF{points}
+          {\XSIMtranslate{point}}
+          {\XSIMtranslate{points}}%
+        }%
+      }%
+    }%
+  }
+{\end{tcolorbox}}
+
+
+% Fakesubsection Point Translations (probably unnecessary)
+\DeclareExerciseTranslations{points}{
+  Fallback = points ,
+  English = points ,
 }
-\newcommand\mypoints[1]{%
-  \addpoints*{#1} {\fbox{\ttfamily\small\bfseries #1  pt.}} 
+\DeclareExerciseTranslations{point}{
+  Fallback = point ,
+  English = point ,
 }
+\DeclareExerciseTranslations{point-abbr}{
+  Fallback = pts ,
+  English = pt. ,
+}
+
+% Fakesubsection Exercise Types
+\DeclareExerciseType{multiplechoice}{
+  exercise-env = multiplechoice ,
+  solution-env = mcsolution ,
+  exercise-name = MC,
+  solution-name = solution ,
+  solutions-name = solutions ,
+  exercise-template = mymargin ,
+  solution-template = mysolutionrunin ,
+  exercise-heading = \subsection* ,
+  solution-heading = \subsection*
+}
+
+\DeclareExerciseType{question}{
+  exercise-env = question ,
+  solution-env = qsolution ,
+  exercise-name = Q,
+  solution-name = solution ,
+  solutions-name = \XSIMtranslate{solutions} ,
+  exercise-template = mymargin ,
+  solution-template = mysolutionrunin ,
+  exercise-heading = \subsection* ,
+  solution-heading = \subsection*
+}
+
+\DeclareExerciseType{subquestion}{
+  exercise-env = subquestion ,
+  solution-env = subqsolution ,
+  exercise-name = Q,
+  solution-name = solution ,
+  solutions-name = solutions ,
+  exercise-template = mymargin ,
+  solution-template = mysolutionrunin ,
+  exercise-heading = \subsection* ,
+  the-counter=\thequestion\alph{subquestion},
+  solution-heading = \subsection*
+}
+
+% Fakesubsection Setups
+\ifdefined\Solutions
+  \xsimsetup{%
+    qsolution/print = true,
+    subqsolution/print = true,
+    mcsolution/print = true
+  }
+\fi
+
+\ifdefined\MyComments
+  \xsimsetup{%
+    multiplechoice/template = mymargindetails ,
+    question/template = mymargindetails ,
+    subquestion/template = mymargindetails
+  }
+\fi
+
+%Not an xsim setting, but appropriate to declare here:
+\counterwithin{equation}{question}
+%2025-12-27 OBSOLETE-FOR-NOW:
+%\newcommand\mypointscd[2]{%
+ %\addpoints*{#1} {\fbox{\ttfamily\small\bfseries #1 pt. \mdseries(C+D=#2)}} 
+%}
+%\newcommand\mypointscdp[2]{%
+  %\addpoints*{#1} {\fbox{\ttfamily\small\bfseries #1  pt. \mdseries(C+D+P=#2)}} 
+%}
+%\newcommand\mypoints[1]{%
+  %\addpoints*{#1} {\fbox{\ttfamily\small\bfseries #1  pt.}} 
+%}
 
 \newcommand{\answerbox}[3][0.5\textwidth]{%
   \ifdefined\Solutions
@@ -230,7 +432,7 @@
   \newpage
   \ifdefined\Solutions
   \else
-  \newgeometry{top=3.6cm, bottom=1.5cm, left=1.8cm, right=1.5cm}
+  %\newgeometry{top=3.6cm, bottom=1.5cm, left=1.8cm, right=1.5cm} %unnecessary?
   \backgroundsetup{%
     scale=5,
     angle=0,
@@ -243,6 +445,8 @@
     }
   }
   \mbox{}
+  \backgroundsetup{%
+  }
   \fi
 }
 
@@ -350,9 +554,10 @@
   \else
     \bigskip
     \begin{description}
-      \item[Time:] \Time.
-      \item[Format:] \Format \space (\Points).
-      \item[Coverage:] \Coverage.  
+      \item[{\sffamily Time:}] \Time
+      %\item[Format:] \Format \space (\Points).
+    \item[{\sffamily Format:}] \Format
+    \item[{\sffamily Coverage:}] \Coverage
     \end{description}
 
     \bigskip

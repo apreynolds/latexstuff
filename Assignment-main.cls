@@ -62,35 +62,35 @@
 
 \loadxsimstyle{layouts}
 \DeclareExerciseEnvironmentTemplate{mydefault}{%
-%\GetExerciseHeadingF{\subsection*}%
-{%
-\trivlist
-\item[\llap{%
-\smash{%
-\XSIMmixedcase{\GetExerciseName}\nobreakspace
-\GetExerciseProperty{counter}%
-}
-%\IfInsideSolutionF
-%{%
-%\GetExercisePropertyT{subtitle}
-%{ {\normalfont\itshape\PropertyValue}}%
-%}%
-}]\relax
-}
-\GetExercisePropertyT{points}
-{%
-\marginpar
-{%
-%\IfInsideSolutionF{\rule{1.2cm}{1pt}\slash}%
-\fbox{\printgoal{\PropertyValue}}
-\GetExercisePropertyT{bonus-points}{~(+\printgoal{\PropertyValue})
-}%
-%~\XSIMtranslate {point-abbr}%
-}%
-}%
-}
-%{\par}
-{\endtrivlist}
+  %\GetExerciseHeadingF{\subsection*}%
+  {%
+    \trivlist
+    \item[\llap{%
+        \smash{%
+          \XSIMmixedcase{\GetExerciseName}\nobreakspace
+          \GetExerciseProperty{counter}%
+        }
+        %\IfInsideSolutionF
+        %{%
+        %\GetExercisePropertyT{subtitle}
+        %{ {\normalfont\itshape\PropertyValue}}%
+        %}%
+      }]\relax
+    }
+    \GetExercisePropertyT{points}
+    {%
+      \marginpar
+      {%
+        %\IfInsideSolutionF{\rule{1.2cm}{1pt}\slash}%
+        \fbox{\printgoal{\PropertyValue}}
+        \GetExercisePropertyT{bonus-points}{~(+\printgoal{\PropertyValue})
+        }%
+        %~\XSIMtranslate {point-abbr}%
+      }%
+    }%
+  }
+  %{\par}
+  {\endtrivlist}
 
 \DeclareExerciseEnvironmentTemplate{mymargin}
 {%
@@ -122,6 +122,37 @@
         \,\IfExerciseGoalSingularTF{points}
         {\XSIMtranslate{point}}
         {\XSIMtranslate{points}}%
+  \DeclareExerciseEnvironmentTemplate{mymargin}
+  {%
+    \trivlist
+  \item[\llap{%
+      \smash{%
+        \tabular[t]{@{}r@{}}
+        \textbf{\GetExerciseName\GetExerciseProperty{counter}.}
+        \endtabular
+      }%
+    }]\relax
+    \GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+  }
+  {\endtrivlist}
+
+  \DeclareExerciseEnvironmentTemplate{mysolutionrunin}
+  {%
+    \par\vspace{\baselineskip}
+    \Needspace*{2\baselineskip}
+    \noindent
+    %\textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}}%
+    \textbf{\textcolor{ForestGreen}{\XSIMmixedcase{\GetExerciseName}:}}%
+    \GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+    \IfInsideSolutionF{%
+      \GetExercisePropertyT{points}{%
+        \marginpar{%
+          \printgoal{\PropertyValue}%
+          \GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
+          \,\IfExerciseGoalSingularTF{points}
+          {\XSIMtranslate{point}}
+          {\XSIMtranslate{points}}%
+        }%
       }%
     }%
   }%
@@ -130,27 +161,27 @@
 
 
 
-\usepackage{needspace}
-\DeclareExerciseEnvironmentTemplate{myrunin}
-{%
-\par\vspace{\baselineskip}
-\Needspace*{2\baselineskip}
-\noindent
-\textbf{\XSIMmixedcase{\GetExerciseName}\GetExerciseProperty{counter}.}%
-\GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
-\IfInsideSolutionF{%
-\GetExercisePropertyT{points}{%
-\marginpar{%
-\fbox{\printgoal{\PropertyValue}}%
-\GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
-%\,\IfExerciseGoalSingularTF{points}
-%{\XSIMtranslate{point}}
-%{\XSIMtranslate{points}}%
-}%
-}%
-}%
-}
-{}
+  \usepackage{needspace}
+  \DeclareExerciseEnvironmentTemplate{myrunin}
+  {%
+    \par\vspace{\baselineskip}
+    \Needspace*{2\baselineskip}
+    \noindent
+    \textbf{\XSIMmixedcase{\GetExerciseName}\GetExerciseProperty{counter}.}%
+    \GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+    \IfInsideSolutionF{%
+      \GetExercisePropertyT{points}{%
+        \marginpar{%
+          \fbox{\printgoal{\PropertyValue}}%
+          \GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
+          %\,\IfExerciseGoalSingularTF{points}
+          %{\XSIMtranslate{point}}
+          %{\XSIMtranslate{points}}%
+        }%
+      }%
+    }%
+  }
+  {}
 
 \DeclareExerciseTranslations{points}{
   Fallback = points ,
@@ -184,6 +215,38 @@ qsolution/print = true
 }
 \fi
 
+  \DeclareExerciseTranslations{points}{
+    Fallback = points ,
+    English = points ,
+    French = exercice ,
+    German = \"Ubung
+  }
+  \DeclareExerciseTranslations{point}{
+    Fallback = point ,
+    English = point ,
+    French = exercice ,
+    German = \"Ubung
+  }
+
+  \DeclareExerciseType{question}{
+    exercise-env = question ,
+    solution-env = qsolution ,
+    exercise-name = Q,
+    exercises-name = \XSIMtranslate{} ,
+    solution-name = \XSIMtranslate{solution} ,
+    solutions-name = \XSIMtranslate{solutions} ,
+    exercise-template = mymargin ,
+    solution-template = mysolutionrunin ,
+    exercise-heading = \subsection* ,
+    solution-heading = \subsection*
+  }
+
+  \ifdefined\Solutions
+    \xsimsetup{%
+      qsolution/print = true
+    }
+  \fi
+
 % Fakesection AtEndOfClass
 
 \AtEndOfClass{
@@ -213,9 +276,9 @@ qsolution/print = true
 \rule{\textwidth}{1pt}
 \ifdefined\Solutions
 
- \bigskip
+\bigskip
 
- {\sffamily \large
+{\sffamily \large
   \color{ForestGreen}{%
    These solutions are intended to help you understand both how to solve the problems and how to write up the solutions.
    There could be other valid ways to solve the problems. 
