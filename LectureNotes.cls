@@ -43,6 +43,7 @@
 % Smaller font and larger margins:
   \LoadClass[14pt]{extreport} 
   \RequirePackage[top=0.5in,bottom=0.75in,left=0.5in,textwidth=6.382in,letterpaper]{geometry}
+  \geometry{marginparwidth=1.3in}
 \fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,22 +74,6 @@
 \RequirePackage{bm} %load after all to give access to bold math; not always necessary, but spacing is apparently better
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Fakesection COLOR DEFINITIONS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\colorlet{MyGreen}{Green!70!Black}
-
-\definecolor{flashcardA}{RGB}{247,244,58}
-\definecolor{flashcardB}{RGB}{123,104,238}
-\definecolor{flashcardC}{RGB}{247,58,241}
-\definecolor{flashcardD}{RGB}{118,247,58}
-\definecolor{flashcardE}{RGB}{247,165,58}
-
-\definecolor{ThmColor}{named}{Gray}
-\definecolor{DefnColor}{named}{Gray}
-\definecolor{TakeawayColor}{named}{RoyalBlue}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection BASIC PACKAGES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -105,10 +90,32 @@
 %\RequirePackage{booktabs} % TODO replace with tabularray
 %\RequirePackage{multirow} % TODO replace with tabularray
 
+\RequirePackage{marginnote}
+\RequirePackage{ragged2e}
+
 \RequirePackage{siunitx}
 \if@loadsysteme
   \RequirePackage{systeme}
 \fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fakesection COLOR DEFINITIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\colorlet{MyGreen}{Green!70!Black}
+
+\definecolor{flashcardA}{RGB}{247,244,58}
+\definecolor{flashcardB}{RGB}{123,104,238}
+\definecolor{flashcardC}{RGB}{247,58,241}
+\definecolor{flashcardD}{RGB}{118,247,58}
+\definecolor{flashcardE}{RGB}{247,165,58}
+
+\definecolor{ThmColor}{named}{Gray}
+\definecolor{NoteColor}{named}{RoyalBlue}
+\definecolor{CautionColor}{named}{Red}
+\definecolor{BasicBGColor}{named}{Red}
+\definecolor{AdvancedBGColor}{named}{ForestGreen}
+\definecolor{CheckInColor}{named}{BrickRed}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection TITLES, HEADERS 
@@ -300,7 +307,7 @@
     \@gobble{#1}\ignorespaces
   \fi
 }
-\NewEnviron{InstructorBox}[1]{%
+\NewEnviron{InstructorComment}{%
   \ifdefined\InstructorNotes
     \begin{tcolorbox}[%
       parbox=false,
@@ -325,7 +332,7 @@
     \end{tcolorbox}
   \else
     \@gobble{\BODY}\ignorespaces
-    \ifthenelse{\equal{#1}{}}{\vfill}{\vspace{#1}}
+    %\ifthenelse{\equal{#1}{}}{\vfill}{\vspace{#1}}
   \fi
 }
 \newcommand\Answer[1]{%
@@ -335,32 +342,54 @@
     #1
   \fi
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Fakesection Misc
-%\newcommand\ns{\normalsize}
-\newcommand\important[1]{%
-  {\sffamily\bfseries\textcolor{RoyalBlue}{#1}}
-} 
 
+% Example use case: "See \hyerref[label]{this note}", where label is in a separate section (inputted by MyCommentInput); if I want I can anchor the margin comment with hypertarget command (google-able)
+\newcommand\MarginComment[1]{%
+  \ifdefined\InstructorNotes
+    \marginnote{%
+    %\begin{tcolorbox}[%
+      %%parbox=false,
+      %breakable,
+      %left=1pt,
+      %right=1pt,
+      %top=1pt,
+      %bottom=1pt,
+      %boxrule=0.3mm,
+      %arc=0mm,
+      %outer arc=0mm,
+      %colframe=Lavender!90,
+      %colback=Lavender!9,
+      %colbacktitle=Lavender,
+      %]
+      %\sffamily\small \RaggedRight #1
+    %\end{tcolorbox}
+    \textcolor{Red}{\sffamily\bfseries #1}
+  }
+  \else
+  \fi
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Fakesection BOXES (theorems, etc)
+% Fakesection THEOREMS, DEFINITIONS, REMARKS, ETC 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\myboxrule}{1.0pt}
-\newcommand{\myboxarc}{0pt}
+\newcommand{\myboxRuleThin}{0.5pt}
+\newcommand{\myboxRuleThick}{2.0pt}
 \newcommand{\myboxmargin}{6pt}
-\newcommand{\myboxtopmargin}{6pt}
+\newcommand{\myboxTopMarginSmall}{6pt}
+\newcommand{\myboxTopMarginLarge}{9pt}
 
+% Fakesubsection Theoremstyle:plain
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem*{theorem*}{Theorem}
 
 \tcolorboxenvironment{theorem}{
-  enhanced,frame hidden,colback=white,top=\myboxtopmargin,borderline west={\myboxrule}{0pt}{ThmColor}, borderline north={\myboxrule}{0pt}{ThmColor}
+  enhanced,parbox=true,frame hidden,colback=white,top=\myboxTopMarginSmall,borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
 }
 \tcolorboxenvironment{theorem*}{
-  enhanced,frame hidden,colback=white,top=\myboxtopmargin, borderline west={\myboxrule}{0pt}{ThmColor}, borderline north={\myboxrule}{0pt}{ThmColor}
+  enhanced,frame hidden,colback=white,top=\myboxTopMarginSmall, borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
 }
 
+% Fakesubsection Theoremstyle:definition
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem*{definition*}{Definition}
@@ -368,100 +397,94 @@
 \newtheorem*{example*}{Example}
 
 \tcolorboxenvironment{definition}{
-  enhanced,frame hidden,colback=white,top=\myboxtopmargin,borderline west={\myboxrule}{0pt}{DefnColor}, borderline north={\myboxrule}{0pt}{DefnColor}
+  enhanced,frame hidden,colback=white,top=\myboxTopMarginSmall,borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
 }
 
-\newtheoremstyle{takeaway}% see amsthm documentation
+% Fakesubsection Theoremstyle:note
+\newtheoremstyle{note}% see amsthm documentation
 {3pt}{3pt}
 {}{}
-{\sffamily\bfseries\color{TakeawayColor}}{.}
+{\sffamily\bfseries\color{NoteColor}}{:}
 { }{}
 
-\theoremstyle{takeaway}
+\theoremstyle{note}
 \newtheorem{keyidea}[theorem]{Key Idea}
+\newtheorem*{takeaway*}{TAKEAWAY}
+\newtheorem*{tip*}{TIP}
+\newtheorem*{practice*}{PRACTICE}
+\newtheorem*{remarkbasic*}{REMARK for the \emph{SURVIVING}}
+\newtheorem*{remarkadvanced*}{REMARK for the \emph{THRIVING}}
 
 \tcolorboxenvironment{keyidea}{
-  enhanced,frame hidden,colback=white,top=7pt,borderline west={2mm}{0pt}{TakeawayColor}, borderline north={2mm}{0pt}{TakeawayColor}
+  colback=NoteColor!4,
+  colframe=NoteColor,
+  sharp corners,
+  boxrule=\myboxRuleThick
 }
-%\theoremstyle{definition}
-%\newtheorem{defn}[thm]{Definition}
-
-%\theoremstyle{remark}
-
-%\newtheoremstyle{myremark}% see amsthm documentation
-%{3pt}{3pt}
-%{}{}
-%{\sffamily\bfseries\color{RemarkColor}}{:}
-%{ }{REMARK}
-%\theoremstyle{myremark}
-%\newtheorem*{remark}{Remark}
-
-%\tcolorboxenvironment{defn}{%
-  %colframe=Gray!60,
-  %colbacktitle=Gray!7,
-  %left=6pt,
-  %right=6pt,
-  %boxrule=0.8pt,
-  %toptitle=1.3pt,
-  %bottomtitle=0.6pt,
-  %outer arc=0pt,
-  %arc=0pt,
-  %colback=White,
-  %coltitle=Black,
-  %fonttitle=\bfseries,
-  %title={Definition}
-%}
-%\newtheorem*{newprepwork}{}
-
-%\tcolorboxenvironment{lem}{%
-%enhanced jigsaw,colframe=cyan,interior hidden, breakable,before skip=10pt,after skip=10pt }
-
-%\tcolorboxenvironment{proof}{% `proof' from `amsthm' 
-%blanker,breakable,left=5mm, before skip=10pt,after skip=10pt, borderline west={1mm}{0pt}{red}}
-
-\tcolorboxenvironment{newprepwork}{
-  enhanced,
-  colframe=MyGreen,
-  colbacktitle=MyGreen,
-  colback=Green!15,
-  coltitle=White,
-  boxrule=3pt,
-  top=16pt,
-  left=6pt,
-  right=6pt,
-  bottom=6pt,
-  outer arc=0pt,
-  arc=0pt,
-  fonttitle=\bfseries,
-  attach boxed title to top left={xshift=18pt,yshift=-\tcboxedtitleheight/2},
-  boxed title style={outer arc=0pt,top=3pt,bottom=3pt,colback=MyGreen},
-  title={\sffamily\bfseries PREPWORK\ldots }
+\tcolorboxenvironment{takeaway*}{
+  colback=NoteColor!4,
+  colframe=NoteColor,
+  sharp corners,
+  boxrule=\myboxRuleThick
 }
-\tcolorboxenvironment{remark}{
-  colframe=RemarkColor,
-  left=\myboxmargin, 
-  right=\myboxmargin,
-  boxrule=\myboxrule,
-  outer arc=\myboxarc,
-  arc=\myboxarc,
-  colback=white
+\tcolorboxenvironment{practice*}{
+  colback=NoteColor!4,
+  colframe=NoteColor,
+  sharp corners,
+  boxrule=\myboxRuleThick
+}
+\tcolorboxenvironment{tip*}{
+  colback=NoteColor!4,
+  colframe=NoteColor,
+  sharp corners,
+  boxrule=\myboxRuleThick
+}
+\tcolorboxenvironment{remarkbasic*}{
+  colback=BasicBGColor!10,
+  colframe=NoteColor,
+  sharp corners,
+  boxrule=\myboxRuleThick,
+  %borderline={\myboxRuleThick}{0mm}{NoteColor,dashed},
+}
+\tcolorboxenvironment{remarkadvanced*}{
+  colback=AdvancedBGColor!10,
+  colframe=NoteColor,
+  sharp corners,
+  boxrule=\myboxRuleThick
 }
 
-% Fakesubsection CautionBox
-\newtcolorbox{CautionBox}[1][]{enhanced,
-  before skip=2mm,after skip=3mm,
-  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
-  colback=yellow!30,
-  colframe=yellow!20!black,
-  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
-  underlay={%
-    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
-    \path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
-    \path[fill=Red,draw=none] (interior.south west) rectangle node[white]{\LARGE\bfseries !} ([xshift=4mm]interior.north west);
-  }
+% Fakesubsection Theoremstyle:checkin
+\newtheoremstyle{checkin}% see amsthm documentation
+{3pt}{3pt}
+{}{}
+{\sffamily\bfseries\color{CheckInColor}}{.}
+{ }{}
+
+\theoremstyle{checkin}
+\newtheorem*{checkin*}{Check In}
+
+\tcolorboxenvironment{checkin*}{
+  enhanced,frame hidden,colback=white,top=\myboxTopMarginLarge,borderline west={\myboxRuleThick}{0pt}{CheckInColor}, borderline north={\myboxRuleThick}{0pt}{CheckInColor}
 }
 
-% Fakesubsection Prepwork
+% Fakesubsection Theoremstyle:caution
+\newtheoremstyle{caution}% see amsthm documentation
+{3pt}{3pt}
+{}{}
+{\sffamily\bfseries\color{CautionColor}}{.}
+{ }{}
+
+\theoremstyle{caution}
+\newtheorem*{caution*}{!CAUTION!}
+
+\tcolorboxenvironment{caution*}{
+  colback=CautionColor!4,
+  colframe=CautionColor,
+  arc=0pt,outer arc=0pt,
+  boxrule=\myboxRuleThick
+}
+
+% Fakesubsection Prepwork (deprecated?)
 \newtcolorbox{Prepwork}{%
   enhanced,
   colframe=MyGreen,
@@ -480,7 +503,7 @@
   boxed title style={outer arc=0pt,top=3pt,bottom=3pt,colback=MyGreen},
   title={\sffamily\bfseries PREPWORK\ldots }
 }
-% Fakesubsection Summary
+% Fakesubsection Summary (deprecated?)
 \newtcolorbox{Summary}{%
   enhanced,
   colframe=MyGreen,
@@ -500,237 +523,15 @@
   title={\sffamily\bfseries \ldots SUMMARY}
 }
 
-% Fakesubsection CheckingIn (flashcards)
-\newtcolorbox{CheckingIn}{%
-  enhanced,
-  colframe=Red,
-  colbacktitle=Red,
-  colback=White,
-  coltitle=White,
-  boxrule=2.5pt,
-  top=16pt,
-  left=6pt,
-  right=6pt,
-  outer arc=0pt,
-  arc=0pt,
-  fonttitle=\bfseries,
-  attach boxed title to top left={xshift=18pt,yshift=-\tcboxedtitleheight/2},
-  boxed title style={outer arc=0pt,top=3pt,bottom=3pt,colback=Red},
-  title={\sffamily\bfseries CHECKING IN }
-}
 
-% Fakesubsection BlueBox
-\newtcolorbox{BlueBox}[1][]{%
-  colframe=RoyalBlue,
-  colbacktitle=RoyalBlue,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.8pt,
-  bottomtitle=1.8pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=White,
-  fonttitle=\bfseries,
-  title={\sffamily #1}
-}
-
-% Fakesubsection GreenBox
-\newtcolorbox{GreenBox}[1][]{%
-  colframe=OliveGreen,
-  colbacktitle=MyGreen,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.8pt,
-  bottomtitle=1.8pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=White,
-  fonttitle=\bfseries,
-  title={\sffamily #1}
-}
-
-% Fakesubsection GrayBox
-\newtcolorbox{GrayBox}[1][]{%
-  colframe=Black!70,
-  colbacktitle=Black!15,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={\sffamily #1}
-}
-
-% Fakesubsection definitionbox
-\newtcolorbox{definitionbox}[2][]{%
-  colframe=Gray!60,
-  colbacktitle=Gray!7,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={%
-    Definition \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
-  }
-}
-% Fakesubsection axiom
-\newtcolorbox{axiom}[2][]{%
-  colframe=Black,
-  colbacktitle=Black!20,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={%
-    AXIOM \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
-  }
-}
-
-% Fakesubsection conjecture 
-\newtcolorbox{conjecture}[2][]{%
-  colframe=RoyalBlue,
-  colbacktitle=RoyalBlue!7,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  fontupper=\itshape,
-  title={%
-    Conjecture \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
-  }
-}
-% Fakesubsection lemma 
-\newtcolorbox{lemma}[2][]{%
-  colframe=RoyalBlue,
-  colbacktitle=RoyalBlue!7,
-  fontupper=\itshape,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={%
-    Lemma \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
-  }
-}
-% Fakesubsection proposition 
-\newtcolorbox{proposition}[2][]{%
-  colframe=RoyalBlue,
-  colbacktitle=RoyalBlue!20,
-  fontupper=\itshape,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={%
-    Proposition \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
-  }
-}
-% Fakesubsection theorembox
-\newtcolorbox{theorembox}[2][]{%
-  colframe=RoyalBlue,
-  colbacktitle=RoyalBlue!20,
-  fontupper=\itshape,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={%
-    Theorem \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
-  }
-}
-% Fakesubsection corollary 
-\newtcolorbox{corollary}[2][]{%
-  colframe=RoyalBlue,
-  colbacktitle=RoyalBlue!7,
-  fontupper=\itshape,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={%
-    Corollary \ifthenelse{\equal{#1}{}}{}{#1.} \ifthenelse{\equal{#2}{}}{}{\mdseries\itshape(#2)}
-  }
-}
-% Fakesubsection thmbox; do I even need this?? 
-\newtcolorbox{thmbox}[2][]{%
-  colframe=RoyalBlue,
-  colbacktitle=RoyalBlue!20,
-  left=6pt,
-  right=6pt,
-  boxrule=0.8pt,
-  toptitle=1.3pt,
-  bottomtitle=0.6pt,
-  outer arc=0pt,
-  arc=0pt,
-  colback=White,
-  coltitle=Black,
-  fonttitle=\bfseries,
-  title={%
-    #2 \ifthenelse{\equal{#1}{}}{}{\sffamily\bfseries#1}
-  }
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection FLASHCARD LETTERS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\newcommand{\mcA}{\setlength{\fboxsep}{8pt}\colorbox[RGB]{247,244,58}{\sffamily\textbf{A}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcA}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardA}{\sffamily\textbf{A}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcB}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardB}{\sffamily\textcolor{white}{\textbf{B}}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcC}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardC}{\sffamily\textcolor{white}{\textbf{C}}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcD}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardD}{\sffamily\textbf{D}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcE}{\setlength{\fboxsep}{8pt}\colorbox{\flashcardE}{\sffamily\textcolor{white}{\textbf{E}}}\quad\setlength{\fboxsep}{2pt}}
-\newcommand{\mcextra}{\setlength{\fboxsep}{8pt}\colorbox{Gray}{\sffamily\textcolor{Gray}{\textbf{E}}}\quad\setlength{\fboxsep}{2pt}}
+\newcommand{\mcA}{\setlength{\fboxsep}{8pt}\colorbox{flashcardA}{\sffamily\textbf{A}}\setlength{\fboxsep}{2pt}}
+\newcommand{\mcB}{\setlength{\fboxsep}{8pt}\colorbox{flashcardB}{\sffamily\textcolor{white}{\textbf{B}}}\setlength{\fboxsep}{2pt}}
+\newcommand{\mcC}{\setlength{\fboxsep}{8pt}\colorbox{flashcardC}{\sffamily\textcolor{white}{\textbf{C}}}\setlength{\fboxsep}{2pt}}
+\newcommand{\mcD}{\setlength{\fboxsep}{8pt}\colorbox{flashcardD}{\sffamily\textbf{D}}\setlength{\fboxsep}{2pt}}
+\newcommand{\mcE}{\setlength{\fboxsep}{8pt}\colorbox{flashcardE}{\sffamily\textcolor{white}{\textbf{E}}}\setlength{\fboxsep}{2pt}}
+\newcommand{\mcextra}{\setlength{\fboxsep}{8pt}\colorbox{Gray}{\sffamily\textcolor{Gray}{\textbf{E}}}\setlength{\fboxsep}{2pt}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection AtEndOfClass (currently empty)
