@@ -23,6 +23,25 @@
 }
 {\endtrivlist}
 
+\DeclareExerciseEnvironmentTemplate{mynewmargin}
+{% 
+  \trivlist 
+\item[\llap{% 
+    \smash{% 
+      \tabular[t]{@{}r@{}} 
+      \textbf{\XSIMmixedcase{\GetExerciseName}\GetExerciseProperty{counter}}.
+      \IfExercisePropertySetT{points}{% 
+        \tabularnewline% 
+        \fbox{\ttfamily\small\bfseries\printgoal{\GetExerciseProperty{points}}% 
+        \GetExercisePropertyT{bonus-points}{+\printgoal{#1}}% 
+      \,\XSIMtranslate{point-abbr}}% 
+      }% 
+      \endtabular 
+    }% 
+  }]\relax 
+} 
+{\endtrivlist}
+
 % Fakesection mymargindetails
 \DeclareExerciseEnvironmentTemplate{mymargindetails}
 {%
@@ -100,21 +119,15 @@
 % Fakesection Point Translations (probably unnecessary)
 \DeclareExerciseTranslations{points}{
   Fallback = points ,
-  English = marks ,
-  French = exercice ,
-  German = \"Ubung
+  English = points ,
 }
 \DeclareExerciseTranslations{point}{
   Fallback = point ,
-  English = mark ,
-  French = exercice ,
-  German = \"Ubung
+  English = point ,
 }
 \DeclareExerciseTranslations{point-abbr}{
-  Fallback = p. ,
-  English = m's ,
-  French = exercice ,
-  German = \"Ubung
+  Fallback = pts ,
+  English = pt. ,
 }
 
 % Fakesection Exercise Types
@@ -136,7 +149,7 @@
   exercise-name = Q,
   solution-name = solution ,
   solutions-name = \XSIMtranslate{solutions} ,
-  exercise-template = mymargin ,
+  exercise-template = mynewmargin ,
   solution-template = mysolutionrunin ,
   exercise-heading = \subsection* ,
   solution-heading = \subsection*
@@ -148,10 +161,10 @@
   exercise-name = Q,
   solution-name = solution ,
   solutions-name = solutions ,
-  exercise-template = mymargin ,
+  exercise-template = mynewmargin ,
   solution-template = mysolutionrunin ,
   exercise-heading = \subsection* ,
-  the-counter=\thesection\alph{subquestion},
+  the-counter=\thequestion\alph{subquestion},
   solution-heading = \subsection*
 }
 

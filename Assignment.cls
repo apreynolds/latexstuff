@@ -29,6 +29,8 @@
 \RequirePackage[dvipsnames]{xcolor}
 \RequirePackage[most]{tcolorbox}
 \RequirePackage{tikz}
+\RequirePackage{siunitx}
+
 %\RequirePackage{background}
 %\backgroundsetup{%
   %contents={}
