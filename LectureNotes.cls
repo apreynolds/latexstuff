@@ -87,6 +87,7 @@
 
 \RequirePackage{tabularray} % TODO replace with tabularray
 \UseTblrLibrary{booktabs}
+\UseTblrLibrary{siunitx}
 %\RequirePackage{booktabs} % TODO replace with tabularray
 %\RequirePackage{multirow} % TODO replace with tabularray
 
@@ -97,6 +98,8 @@
 \if@loadsysteme
   \RequirePackage{systeme}
 \fi
+
+\RequirePackage{tikz}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fakesection COLOR DEFINITIONS
@@ -381,11 +384,21 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem*{theorem*}{Theorem}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem*{prop*}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{lemma*}{Lemma}
 
 \tcolorboxenvironment{theorem}{
   enhanced,parbox=true,frame hidden,colback=white,top=\myboxTopMarginSmall,borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
 }
 \tcolorboxenvironment{theorem*}{
+  enhanced,frame hidden,colback=white,top=\myboxTopMarginSmall, borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
+}
+\tcolorboxenvironment{lemma}{
+  enhanced,parbox=true,frame hidden,colback=white,top=\myboxTopMarginSmall,borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
+}
+\tcolorboxenvironment{lemma*}{
   enhanced,frame hidden,colback=white,top=\myboxTopMarginSmall, borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
 }
 
@@ -395,6 +408,8 @@
 \newtheorem*{definition*}{Definition}
 \newtheorem{example}[theorem]{Example}
 \newtheorem*{example*}{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{axiom*}{Axiom}
 
 \tcolorboxenvironment{definition}{
   enhanced,frame hidden,colback=white,top=\myboxTopMarginSmall,borderline west={\myboxRuleThin}{0pt}{ThmColor}, borderline north={\myboxRuleThin}{0pt}{ThmColor}
@@ -411,9 +426,9 @@
 \newtheorem{keyidea}[theorem]{Key Idea}
 \newtheorem*{takeaway*}{TAKEAWAY}
 \newtheorem*{tip*}{TIP}
-\newtheorem*{practice*}{PRACTICE}
 \newtheorem*{remarkbasic*}{REMARK for the \emph{SURVIVING}}
 \newtheorem*{remarkadvanced*}{REMARK for the \emph{THRIVING}}
+\newtheorem*{practice*}{PRACTICE}
 
 \tcolorboxenvironment{keyidea}{
   colback=NoteColor!4,
